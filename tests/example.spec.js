@@ -40,5 +40,12 @@ test.only('Child windows handle', async ({browser}) => {
 
   const docReqPage = newPage.locator(".red");
   const page2Text = await docReqPage.textContent();
-  console.log(page2Text);
+  const email2ndPart = page2Text.split("@");
+  const linkFromMail = email2ndPart[1].split(" ")[0];
+  const gotUsername = linkFromMail.split(".")[0];
+  console.log(linkFromMail);
+
+  const userName = page.locator("#username");
+  await userName.fill(gotUsername);
+  await page.pause();
 });
