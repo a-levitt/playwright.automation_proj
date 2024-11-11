@@ -33,8 +33,12 @@ test.only('Child windows handle', async ({browser}) => {
   const page = await context.newPage();
   await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
   const linkToChildPage = page.locator("[href*='documents-request']");
-  const [newPage] = Promise.all([
+  const [newPage] = await Promise.all([
     context.waitForEvent('page'),
     linkToChildPage.click()
   ])
+
+  const docReqPage = newPage.locator(".red");
+  const page2Text = await docReqPage.textContent();
+  console.log(page2Text);
 });
