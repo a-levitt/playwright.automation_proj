@@ -23,5 +23,18 @@ test('UI controls', async ({ page }) => {
   console.log(await termsCheckbox.isChecked());
   await termsCheckbox.uncheck();
   expect(await termsCheckbox.isChecked()).toBeFalsy();
-  await page.pause();
+
+  await expect(page.locator("[href*='documents-request']")).toHaveAttribute('class', 'blinkingText');
+  // await page.pause();
+});
+
+test.only('Child windows handle', async ({browser}) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto('https://rahulshettyacademy.com/loginpagePractise/');
+  const linkToChildPage = page.locator("[href*='documents-request']");
+  const [newPage] = Promise.all([
+    context.waitForEvent('page'),
+    linkToChildPage.click()
+  ])
 });
